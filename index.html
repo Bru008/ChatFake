@@ -36,7 +36,8 @@
             <div class="chat-header">
                 <div class="divHeader">
                     <img src="/img/grupo.png" alt="">
-                    <h4 id="grupoTitulo">Nome do Grupo</h4>
+                    <h4 id="grupoTitulo" onclick="editarNomeGrupo()">Nome do Grupo</h4>
+                    <input type="text" id="grupoNomeInput" placeholder="Digite o nome do grupo" style="display: none;" />
                 </div>
                 <div class="ligacao">
                     <img src="/img/call.png">
@@ -58,6 +59,36 @@
         const nomeInput = document.getElementById("nome");
         const mensagemInput = document.getElementById("mensagem");
         const mensagens = document.getElementById("mensagens");
+
+        const grupoTitulo = document.getElementById("grupoTitulo");
+        const grupoNomeInput = document.getElementById("grupoNomeInput");
+
+        // Recupera o nome do grupo salvo e preenche o campo
+        window.onload = () => {
+            const grupoNomeSalvo = localStorage.getItem("grupoNome");
+            if (grupoNomeSalvo) {
+                grupoTitulo.textContent = grupoNomeSalvo;
+            }
+        };
+
+        // Função para permitir editar o nome do grupo
+        function editarNomeGrupo() {
+            grupoTitulo.style.display = "none";
+            grupoNomeInput.style.display = "block";
+            grupoNomeInput.value = grupoTitulo.textContent;
+            grupoNomeInput.focus();
+        }
+
+        // Salva o nome do grupo e volta para o título
+        grupoNomeInput.addEventListener('blur', () => {
+            const grupoNome = grupoNomeInput.value.trim();
+            if (grupoNome) {
+                grupoTitulo.textContent = grupoNome;
+                localStorage.setItem("grupoNome", grupoNome);
+            }
+            grupoTitulo.style.display = "block";
+            grupoNomeInput.style.display = "none";
+        });
 
         document.querySelector('form').addEventListener('submit', event => {
             event.preventDefault();
