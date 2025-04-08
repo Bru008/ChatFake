@@ -4,11 +4,14 @@ const http = require('http').createServer(app);
 const { Server } = require('socket.io');
 const io = new Server(http);
 
-// Servir arquivos estáticos da pasta 'public'
-app.use(express.static('public')); // Serve a pasta public para arquivos estáticos como imagens, css, js.
+// Serve os arquivos da pasta 'public'
+app.use(express.static(path.join(__dirname, 'public')));
 
-// Rota para a página principal
-app.get('/', (req, res) => res.sendFile(__dirname + '/index.html'));
+// Rota principal
+app.get('/', (req, res) =>
+  res.sendFile(path.join(__dirname, 'public', 'index.html'))
+);
+
 
 // Evento quando o cliente se conecta ao servidor
 io.on('connection', (socket) => {
